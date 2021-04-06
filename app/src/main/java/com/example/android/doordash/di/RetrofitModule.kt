@@ -1,5 +1,6 @@
 package com.example.android.doordash.di
 
+import com.example.android.doordash.retrofit.StoreDetailsRetrofit
 import com.example.android.doordash.retrofit.StoreRetrofit
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -37,5 +38,13 @@ object RetrofitModule {
         return retrofit
             .build()
             .create(StoreRetrofit::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideStoreDetailsService(retrofit: Retrofit.Builder): StoreDetailsRetrofit {
+        return retrofit
+            .build()
+            .create(StoreDetailsRetrofit::class.java)
     }
 }

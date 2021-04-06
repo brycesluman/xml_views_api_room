@@ -7,20 +7,26 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.VisibleForTesting
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.doordash.R
 import com.example.android.doordash.model.Store
+import com.example.android.doordash.ui.details.DetailsFragment.Companion.STORE_KEY
 import com.example.android.doordash.util.ImageLoader
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class StoreAdapter(private val fragment: Fragment,
-                   private val stores: List<Store>,
-                   private val imageLoader: ImageLoader = ImageLoader(),
-                   private val calendar: Calendar = Calendar.getInstance(),
-                   private val format: SimpleDateFormat = SimpleDateFormat(DATE_FORMAT, Locale.US)
+
+class StoreAdapter(
+    private val fragment: Fragment,
+    private val stores: List<Store>,
+    private val imageLoader: ImageLoader = ImageLoader(),
+    private val calendar: Calendar = Calendar.getInstance(),
+    private val format: SimpleDateFormat = SimpleDateFormat(DATE_FORMAT, Locale.US)
 ) : RecyclerView.Adapter<StoreAdapter.StoreHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoreHolder {
         val view = LayoutInflater.from(parent.context)
@@ -30,6 +36,7 @@ class StoreAdapter(private val fragment: Fragment,
     }
 
     override fun onBindViewHolder(holder: StoreHolder, position: Int) {
+        holder.store = stores[position]
         holder.itemName.text = stores[position].name
         holder.itemDescription.text = stores[position].description
         holder.itemAsapMinutes.text =
@@ -45,7 +52,10 @@ class StoreAdapter(private val fragment: Fragment,
     private fun restaurantIsOpen(startDate: String, endDate: String): Boolean {
         val now = calendar.time
         Log.d("test", "now " + now)
-        Log.d("test", "now " + now +" open " + parseDate(startDate) + " close " + parseDate(endDate))
+        Log.d(
+            "test",
+            "now " + now + " open " + parseDate(startDate) + " close " + parseDate(endDate)
+        )
         if (now.after(parseDate(startDate)) && now.before(parseDate(endDate))) {
             Log.d("test", "" + true)
                 //checks whether the current time is between 14:49:00 and 20:11:13.
@@ -72,7 +82,7 @@ class StoreAdapter(private val fragment: Fragment,
 
     class StoreHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
         private var view: View = v
-        private var store: Store? = null
+        lateinit var store: Store
         val itemName: TextView
         val itemDescription: TextView
         val imageView: ImageView
@@ -87,7 +97,10 @@ class StoreAdapter(private val fragment: Fragment,
         }
 
         override fun onClick(v: View) {
-            Log.d("RecyclerView", "CLICK!")
+            Log.d("RecyclerView", "CLICK!" + store.id)
+            val bundle = bundleOf(STORE_KEY to store.id)
+
+            v.findNavController().navigate(R.id.action_mainFragment_to_detailsFragment, bundle)
         }
 
     }

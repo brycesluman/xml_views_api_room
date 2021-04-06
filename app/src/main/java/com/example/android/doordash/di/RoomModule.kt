@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.android.doordash.room.StoreDao
 import com.example.android.doordash.room.StoreDatabase
+import com.example.android.doordash.room.StoreDetailsDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,5 +32,11 @@ object RoomModule {
     @Provides
     fun provideStoreDAO(storeDatabase: StoreDatabase): StoreDao {
         return storeDatabase.storeDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideStoreDetailsDAO(storeDatabase: StoreDatabase): StoreDetailsDao {
+        return storeDatabase.storeDetailsDao()
     }
 }

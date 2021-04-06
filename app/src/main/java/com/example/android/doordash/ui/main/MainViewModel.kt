@@ -26,7 +26,7 @@ class MainViewModel
     fun setStateEvent(mainStateEvent: MainStateEvent) {
         viewModelScope.launch {
             when(mainStateEvent) {
-                is MainStateEvent.GetBlogsEvent -> {
+                is MainStateEvent.GetStoresEvent -> {
                     mainRepository.getStore()
                         .onEach { dataState ->
                             _dataState.value = dataState
@@ -42,7 +42,7 @@ class MainViewModel
 }
 
 sealed class MainStateEvent{
-    object GetBlogsEvent: MainStateEvent()
+    object GetStoresEvent: MainStateEvent()
 
     object None: MainStateEvent()
 }

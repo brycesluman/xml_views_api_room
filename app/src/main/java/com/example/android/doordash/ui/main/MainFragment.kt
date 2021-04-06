@@ -32,7 +32,7 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         subscribeObservers()
-        viewModel.setStateEvent(MainStateEvent.GetBlogsEvent)
+        viewModel.setStateEvent(MainStateEvent.GetStoresEvent)
 
         linearLayoutManager = LinearLayoutManager(this.context)
         store_feed.layoutManager = linearLayoutManager
@@ -49,7 +49,6 @@ class MainFragment : Fragment() {
                 is DataState.Success<List<Store>> -> {
                     displayProgressBar(false)
                     store_feed.adapter = StoreAdapter(this, dataState.data)
-//                    appendBlogTitles(dataState.data)
                 }
                 is DataState.Error -> {
                     displayProgressBar(false)
@@ -73,11 +72,4 @@ class MainFragment : Fragment() {
         progress_bar.visibility = if(isDisplayed) View.VISIBLE else View.GONE
     }
 
-    private fun appendBlogTitles(stores: List<Store>) {
-        val sb = StringBuilder()
-        for (store in stores) {
-            sb.append(store.name).append("\n")
-        }
-        text.text = sb.toString()
-    }
 }
