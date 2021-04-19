@@ -11,5 +11,6 @@ data class Store(
     val pickup_available: Boolean,
     val asap_available: Boolean,
     val scheduled_available: Boolean,
-    val asap_minutes: Int
+    val asap_minutes: Int,
+    var is_favorite: Boolean
 )

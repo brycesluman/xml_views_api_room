@@ -3,6 +3,7 @@ package com.example.android.doordash.ui.main
 import androidx.lifecycle.*
 import com.example.android.doordash.model.Store
 import com.example.android.doordash.repository.MainRepository
+import com.example.android.doordash.room.StoreCacheEntity
 import com.example.android.doordash.util.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -37,6 +38,12 @@ class MainViewModel
                     //who cares
                 }
             }
+        }
+    }
+
+    fun favoriteStore(store: Store) {
+        viewModelScope.launch {
+            mainRepository.updateStore(store)
         }
     }
 }

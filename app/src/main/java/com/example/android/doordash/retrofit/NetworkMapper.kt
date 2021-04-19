@@ -18,7 +18,8 @@ class NetworkMapper
             pickup_available = entity.status.pickup_available,
             asap_available = entity.status.asap_available,
             scheduled_available = entity.status.scheduled_available,
-            asap_minutes = entity.status.asap_minutes_range[0]
+            asap_minutes = entity.status.asap_minutes_range[0],
+            is_favorite = false
         )
     }
 

@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.VisibleForTesting
@@ -14,7 +15,10 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.doordash.R
 import com.example.android.doordash.model.Store
+import com.example.android.doordash.repository.MainRepository
+import com.example.android.doordash.room.CacheMapper
 import com.example.android.doordash.ui.details.DetailsFragment.Companion.STORE_KEY
+import com.example.android.doordash.ui.main.MainViewModel
 import com.example.android.doordash.util.ImageLoader
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -24,9 +28,11 @@ import java.util.*
 class StoreAdapter(
     private val fragment: Fragment,
     private val stores: List<Store>,
+    private val viewModel: MainViewModel,
     private val imageLoader: ImageLoader = ImageLoader(),
     private val calendar: Calendar = Calendar.getInstance(),
     private val format: SimpleDateFormat = SimpleDateFormat(DATE_FORMAT, Locale.US)
+
 ) : RecyclerView.Adapter<StoreAdapter.StoreHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoreHolder {
         val view = LayoutInflater.from(parent.context)
@@ -36,6 +42,7 @@ class StoreAdapter(
     }
 
     override fun onBindViewHolder(holder: StoreHolder, position: Int) {
+        holder.viewModel = viewModel
         holder.store = stores[position]
         holder.itemName.text = stores[position].name
         holder.itemDescription.text = stores[position].description
@@ -46,6 +53,8 @@ class StoreAdapter(
                 "${stores[position].asap_minutes} mins"
             }
         imageLoader.loadImage(fragment, stores[position].cover_img_url, holder.imageView)
+        holder.favoriteButton.text = if (stores[position].is_favorite) { "FAVORITED" } else { "FAVORITE" }
+
     }
 
     @VisibleForTesting
@@ -87,16 +96,35 @@ class StoreAdapter(
         val itemDescription: TextView
         val imageView: ImageView
         val itemAsapMinutes: TextView
+        val favoriteButton: Button
+        lateinit var viewModel: MainViewModel
 
         init {
             itemName = view.findViewById(R.id.itemName)
             itemDescription = view.findViewById(R.id.itemDescription)
             imageView = view.findViewById(R.id.itemImage)
             itemAsapMinutes = view.findViewById(R.id.itemAsapMinutes)
+            favoriteButton = view.findViewById(R.id.favorite)
             v.setOnClickListener(this)
+            favoriteButton.setOnClickListener(this)
         }
 
         override fun onClick(v: View) {
+            if (v.id == R.id.favorite) {
+
+                if (store.is_favorite) {
+                    store.is_favorite = false
+                    favoriteButton.text = "FAVORITE"
+//                    mainRepo.updateStore(store)
+                    Log.d("RecyclerView", "UnFAVORITE!" + store.id)
+                } else {
+                    store.is_favorite = true
+                    favoriteButton.text = "FAVORITED"
+                    Log.d("RecyclerView", "FAVORITE!" + store.id)
+                }
+                viewModel.favoriteStore(store)
+                return
+            }
             Log.d("RecyclerView", "CLICK!" + store.id)
             val bundle = bundleOf(STORE_KEY to store.id)
 

@@ -61,6 +61,13 @@
         android:textSize="12sp"
         tools:text="22 Mins"
         />
+    <Button
+        android:id="@+id/favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Favorite"/>
 
     <View android:id="@+id/separator"
         android:background="#C0C0C0"

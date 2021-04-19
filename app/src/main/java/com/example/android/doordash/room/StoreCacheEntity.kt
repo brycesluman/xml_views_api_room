@@ -41,5 +41,8 @@ data class StoreCacheEntity (
     var scheduled_available: Boolean,
 
     @ColumnInfo(name="asap_minutes")
-    var asap_minutes: Int
+    var asap_minutes: Int,
+
+    @ColumnInfo(name="is_favorite")
+    var is_favorite: Boolean
 )

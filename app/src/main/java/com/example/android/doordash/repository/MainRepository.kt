@@ -6,6 +6,7 @@ import com.example.android.doordash.room.CacheMapper
 import com.example.android.doordash.util.DataState
 import com.example.android.doordash.model.Store
 import com.example.android.doordash.retrofit.StoreRetrofit
+import com.example.android.doordash.room.StoreCacheEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -31,5 +32,9 @@ constructor(
         } catch(e: Exception) {
             emit(DataState.Error(e))
         }
+    }
+
+    suspend fun updateStore(store: Store) {
+        storeDao.update(cacheMapper.mapToEntity(store))
     }
 }

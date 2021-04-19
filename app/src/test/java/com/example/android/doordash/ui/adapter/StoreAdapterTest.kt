@@ -2,6 +2,7 @@ package com.example.android.doordash.ui.adapter
 
 import androidx.fragment.app.Fragment
 import com.example.android.doordash.model.Store
+import com.example.android.doordash.ui.main.MainViewModel
 import com.example.android.doordash.util.ImageLoader
 import com.example.android.utility.TestUtils.mokk
 import org.junit.Assert
@@ -20,11 +21,13 @@ class StoreAdapterTest {
 //                   private val format: SimpleDateFormat = SimpleDateFormat(DATE_FORMAT, Locale.US
     private val fragment: Fragment = mokk()
     private val imageLoader: ImageLoader = mokk()
+    private val viewModel: MainViewModel = mokk()
     private val calendar: Calendar = mokk()
     private val format: SimpleDateFormat = mokk()
     var adapter = StoreAdapter(
         fragment,
         createStoreList(),
+        viewModel,
         imageLoader,
         calendar,
         format
@@ -60,7 +63,8 @@ class StoreAdapterTest {
                 true,
                 true,
                 false,
-                33
+                33,
+                true
             ),
             Store(
                 2,
@@ -73,7 +77,8 @@ class StoreAdapterTest {
                 true,
                 true,
                 true,
-                45
+                45,
+                false
             )
         )
     }

@@ -21,7 +21,8 @@ constructor(): EntityMapper<StoreCacheEntity, Store> {
             pickup_available = entity.pickup_available,
             asap_available = entity.asap_available,
             scheduled_available = entity.scheduled_available,
-            asap_minutes = entity.asap_minutes
+            asap_minutes = entity.asap_minutes,
+            is_favorite = entity.is_favorite
         )
     }
 
@@ -37,7 +38,8 @@ constructor(): EntityMapper<StoreCacheEntity, Store> {
             pickup_available = domainModel.pickup_available,
             asap_available = domainModel.asap_available,
             scheduled_available = domainModel.scheduled_available,
-            asap_minutes = domainModel.asap_minutes
+            asap_minutes = domainModel.asap_minutes,
+            is_favorite = domainModel.is_favorite
         )
     }
     fun mapFromEntityList(entities: List<StoreCacheEntity>): List<Store> {
