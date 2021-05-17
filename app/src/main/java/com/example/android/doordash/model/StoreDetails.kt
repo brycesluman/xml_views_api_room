@@ -7,5 +7,4 @@ class StoreDetails (
     var cover_img_url: String,
     var delivery_fee: Int,
     var average_rating: Float
-
 )

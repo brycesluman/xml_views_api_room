@@ -9,6 +9,6 @@ abstract class StoreDatabase: RoomDatabase() {
     abstract fun storeDetailsDao(): StoreDetailsDao
 
     companion object {
-        val DATABASE_NAME: String = "store_db"
+        const val DATABASE_NAME: String = "store_db"
     }
 }
